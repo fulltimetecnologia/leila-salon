@@ -1,88 +1,91 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Novo Agendamento</h2>
+        <div class="flex items-center gap-2">
+            <x-mary-icon name="o-plus-circle" class="w-6 h-6 text-salon-500" />
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Novo Agendamento</h2>
+        </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <x-mary-card>
-                <form action="{{ route('bookings.store') }}" method="POST">
-                    @csrf
+    <div class="max-w-3xl mx-auto">
+        <x-mary-card>
+            <form action="{{ route('bookings.store') }}" method="POST" class="space-y-6">
+                @csrf
 
-                    <div class="space-y-4">
-                        <div>
-                            <x-mary-select 
-                                label="Serviço" 
-                                name="service_id" 
-                                :options="$services" 
-                                option-value="id" 
-                                option-label="name"
-                                placeholder="Selecione um serviço"
-                                required
-                            />
-                            @error('service_id')
-                                <span class="text-error text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
+                <x-mary-select 
+                    label="Serviço" 
+                    name="service_id" 
+                    :options="$services" 
+                    option-value="id" 
+                    option-label="name"
+                    placeholder="Selecione um serviço"
+                    icon="o-sparkles"
+                    hint="Escolha o serviço que deseja agendar"
+                    required
+                />
 
-                        <div>
-                            <label class="label">
-                                <span class="label-text">Data e Hora</span>
-                            </label>
-                            <input 
-                                type="datetime-local" 
-                                name="scheduled_at" 
-                                class="input input-bordered w-full @error('scheduled_at') input-error @enderror"
-                                value="{{ old('scheduled_at') }}"
-                                min="{{ now()->addDay()->format('Y-m-d\TH:i') }}"
-                                required
-                            />
-                            @error('scheduled_at')
-                                <span class="text-error text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
+                <x-mary-input
+                    label="Data e Hora do Agendamento"
+                    type="datetime-local"
+                    name="scheduled_at"
+                    :value="old('scheduled_at')"
+                    min="{{ now()->addDay()->format('Y-m-d\TH:i') }}"
+                    icon="o-calendar"
+                    hint="Agendamento deve ser feito com pelo menos 24h de antecedência"
+                    required
+                />
 
-                        <div>
-                            <label class="label">
-                                <span class="label-text">Observações (opcional)</span>
-                            </label>
-                            <textarea 
-                                name="notes" 
-                                class="textarea textarea-bordered w-full @error('notes') textarea-error @enderror"
-                                rows="3"
-                                placeholder="Alguma observação sobre o agendamento?"
-                            >{{ old('notes') }}</textarea>
-                            @error('notes')
-                                <span class="text-error text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
+                <x-mary-textarea 
+                    label="Observações" 
+                    name="notes" 
+                    :value="old('notes')" 
+                    rows="3"
+                    placeholder="Alguma observação sobre o agendamento?"
+                    hint="Opcional - Informe preferências ou pedidos especiais"
+                />
 
-                        <div class="flex gap-2">
-                            <x-mary-button type="submit" class="btn-primary" icon="o-check">
-                                Agendar
-                            </x-mary-button>
-                            <x-mary-button link="{{ route('bookings.index') }}" icon="o-x-mark">
-                                Cancelar
-                            </x-mary-button>
-                        </div>
-                    </div>
-                </form>
-            </x-mary-card>
+                <div class="flex gap-3 pt-4">
+                    <x-mary-button type="submit" class="btn-primary flex-1" icon="o-check">
+                        Confirmar Agendamento
+                    </x-mary-button>
+                    <x-mary-button link="{{ route('bookings.index') }}" class="btn-ghost" icon="o-x-mark">
+                        Cancelar
+                    </x-mary-button>
+                </div>
+            </form>
+        </x-mary-card>
 
-            <x-mary-card class="mt-6" title="Serviços Disponíveis">
-                <div class="space-y-3">
-                    @foreach($services as $service)
-                        <div class="border-l-4 border-primary pl-4">
-                            <h4 class="font-bold">{{ $service->name }}</h4>
-                            <p class="text-sm text-gray-600">{{ $service->description }}</p>
-                            <div class="flex gap-4 mt-1 text-sm">
-                                <span class="text-primary font-semibold">R$ {{ number_format($service->price, 2, ',', '.') }}</span>
-                                <span class="text-gray-500">{{ $service->duration_minutes }} minutos</span>
+        <x-mary-card class="mt-6">
+            <x-slot:title>
+                <div class="flex items-center gap-2">
+                    <x-mary-icon name="o-sparkles" class="w-5 h-5 text-lavender-500" />
+                    Serviços Disponíveis
+                </div>
+            </x-slot:title>
+
+            <div class="space-y-4">
+                @foreach($services as $service)
+                    <div class="flex items-start gap-4 p-4 rounded-lg border border-salon-100 hover:border-salon-300 hover:bg-salon-50/30 transition">
+                        <div class="avatar placeholder">
+                            <div class="bg-gradient-to-br from-salon-100 to-lavender-100 text-salon-600 rounded-full w-12">
+                                <x-mary-icon name="o-scissors" class="w-6 h-6" />
                             </div>
                         </div>
-                    @endforeach
-                </div>
-            </x-mary-card>
-        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-lg text-gray-800">{{ $service->name }}</h4>
+                            <p class="text-sm text-gray-600 mt-1">{{ $service->description }}</p>
+                            <div class="flex gap-4 mt-2">
+                                <span class="text-salon-600 font-bold text-lg">
+                                    R$ {{ number_format($service->price, 2, ',', '.') }}
+                                </span>
+                                <span class="flex items-center gap-1 text-gray-500">
+                                    <x-mary-icon name="o-clock" class="w-4 h-4" />
+                                    {{ $service->duration_minutes }} min
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </x-mary-card>
     </div>
 </x-app-layout>

@@ -188,36 +188,6 @@ Após executar os seeders, você terá acesso a:
 - Uso de Policies para autorização
 - Validação de dados em todos os formulários
 
-## Troubleshooting
-
-### Erro "Port already in use"
-```bash
-# Parar containers
-./vendor/bin/sail down
-
-# Verificar se há processos usando a porta 80
-lsof -i :80
-
-# Alterar a porta no .env
-APP_PORT=8080
-
-# Subir novamente
-./vendor/bin/sail up -d
-```
-
-### MySQL não conecta
-```bash
-# Verificar status do container
-docker ps
-
-# Ver logs do MySQL
-./vendor/bin/sail logs mysql
-
-# Recriar containers
-./vendor/bin/sail down -v
-./vendor/bin/sail up -d
-```
-
 ### Limpar cache
 ```bash
 ./vendor/bin/sail artisan config:clear
