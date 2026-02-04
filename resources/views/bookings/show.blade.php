@@ -5,7 +5,7 @@
 
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <x-mary-card>
+            <x-card>
                 <div class="space-y-4">
                     <div>
                         <label class="font-semibold text-gray-700">Serviço:</label>
@@ -72,18 +72,18 @@
                     </div>
 
                     <div class="flex gap-2 pt-4">
-                        <x-mary-button link="{{ route('bookings.index') }}" icon="o-arrow-left">
+                        <x-button link="{{ route('bookings.index') }}" icon="o-arrow-left">
                             Voltar
-                        </x-mary-button>
+                        </x-button>
 
                         @if($booking->canBeModified() && in_array($booking->status, ['pending', 'confirmed']))
-                            <x-mary-button link="{{ route('bookings.edit', $booking) }}" icon="o-pencil" class="btn-primary">
+                            <x-button link="{{ route('bookings.edit', $booking) }}" icon="o-pencil" class="btn-primary">
                                 Editar
-                            </x-mary-button>
+                            </x-button>
                         @endif
                     </div>
                 </div>
-            </x-mary-card>
+            </x-card>
         </div>
     </div>
 </x-app-layout>

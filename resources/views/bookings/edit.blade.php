@@ -5,14 +5,14 @@
 
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <x-mary-card>
+            <x-card>
                 <form action="{{ route('bookings.update', $booking) }}" method="POST">
                     @csrf
                     @method('PUT')
 
                     <div class="space-y-4">
                         <div>
-                            <x-mary-select 
+                            <x-select 
                                 label="Serviço" 
                                 name="service_id" 
                                 :options="$services" 
@@ -60,16 +60,16 @@
                         </div>
 
                         <div class="flex gap-2">
-                            <x-mary-button type="submit" class="btn-primary" icon="o-check">
+                            <x-button type="submit" class="btn-primary" icon="o-check">
                                 Salvar Alterações
-                            </x-mary-button>
-                            <x-mary-button link="{{ route('bookings.index') }}" icon="o-x-mark">
+                            </x-button>
+                            <x-button link="{{ route('bookings.index') }}" icon="o-x-mark">
                                 Cancelar
-                            </x-mary-button>
+                            </x-button>
                         </div>
                     </div>
                 </form>
-            </x-mary-card>
+            </x-card>
         </div>
     </div>
 </x-app-layout>

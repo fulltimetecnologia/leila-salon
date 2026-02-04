@@ -1,17 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center gap-2">
-            <x-mary-icon name="o-plus-circle" class="w-6 h-6 text-salon-500" />
+            <x-icon name="o-plus-circle" class="w-6 h-6 text-salon-500" />
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Novo Agendamento</h2>
         </div>
     </x-slot>
 
     <div class="max-w-3xl mx-auto">
-        <x-mary-card>
+        <x-card>
             <form action="{{ route('bookings.store') }}" method="POST" class="space-y-6">
                 @csrf
 
-                <x-mary-select 
+                <x-select 
                     label="Serviço" 
                     name="service_id" 
                     :options="$services" 
@@ -23,7 +23,7 @@
                     required
                 />
 
-                <x-mary-input
+                <x-input
                     label="Data e Hora do Agendamento"
                     type="datetime-local"
                     name="scheduled_at"
@@ -34,7 +34,7 @@
                     required
                 />
 
-                <x-mary-textarea 
+                <x-textarea 
                     label="Observações" 
                     name="notes" 
                     :value="old('notes')" 
@@ -44,20 +44,20 @@
                 />
 
                 <div class="flex gap-3 pt-4">
-                    <x-mary-button type="submit" class="btn-primary flex-1" icon="o-check">
+                    <x-button type="submit" class="btn-primary flex-1" icon="o-check">
                         Confirmar Agendamento
-                    </x-mary-button>
-                    <x-mary-button link="{{ route('bookings.index') }}" class="btn-ghost" icon="o-x-mark">
+                    </x-button>
+                    <x-button link="{{ route('bookings.index') }}" class="btn-ghost" icon="o-x-mark">
                         Cancelar
-                    </x-mary-button>
+                    </x-button>
                 </div>
             </form>
-        </x-mary-card>
+        </x-card>
 
-        <x-mary-card class="mt-6">
+        <x-card class="mt-6">
             <x-slot:title>
                 <div class="flex items-center gap-2">
-                    <x-mary-icon name="o-sparkles" class="w-5 h-5 text-lavender-500" />
+                    <x-icon name="o-sparkles" class="w-5 h-5 text-lavender-500" />
                     Serviços Disponíveis
                 </div>
             </x-slot:title>
@@ -67,7 +67,7 @@
                     <div class="flex items-start gap-4 p-4 rounded-lg border border-salon-100 hover:border-salon-300 hover:bg-salon-50/30 transition">
                         <div class="avatar placeholder">
                             <div class="bg-gradient-to-br from-salon-100 to-lavender-100 text-salon-600 rounded-full w-12">
-                                <x-mary-icon name="o-scissors" class="w-6 h-6" />
+                                <x-icon name="o-scissors" class="w-6 h-6" />
                             </div>
                         </div>
                         <div class="flex-1">
@@ -78,7 +78,7 @@
                                     R$ {{ number_format($service->price, 2, ',', '.') }}
                                 </span>
                                 <span class="flex items-center gap-1 text-gray-500">
-                                    <x-mary-icon name="o-clock" class="w-4 h-4" />
+                                    <x-icon name="o-clock" class="w-4 h-4" />
                                     {{ $service->duration_minutes }} min
                                 </span>
                             </div>
@@ -86,6 +86,6 @@
                     </div>
                 @endforeach
             </div>
-        </x-mary-card>
+        </x-card>
     </div>
 </x-app-layout>

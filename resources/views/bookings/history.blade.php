@@ -5,7 +5,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <x-mary-card>
+            <x-card>
                 <form method="GET" class="mb-6">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
@@ -33,9 +33,9 @@
                         </div>
 
                         <div class="flex items-end">
-                            <x-mary-button type="submit" class="btn-primary" icon="o-magnifying-glass">
+                            <x-button type="submit" class="btn-primary" icon="o-magnifying-glass">
                                 Filtrar
-                            </x-mary-button>
+                            </x-button>
                         </div>
                     </div>
                 </form>
@@ -78,7 +78,7 @@
                                         </td>
                                         <td class="font-semibold">R$ {{ number_format($booking->service->price, 2, ',', '.') }}</td>
                                         <td>
-                                            <x-mary-button link="{{ route('bookings.show', $booking) }}" icon="o-eye" class="btn-sm" />
+                                            <x-button link="{{ route('bookings.show', $booking) }}" icon="o-eye" class="btn-sm" />
                                         </td>
                                     </tr>
                                 @endforeach
@@ -94,7 +94,7 @@
                         <p class="text-gray-500">Nenhum agendamento encontrado no período selecionado.</p>
                     </div>
                 @endif
-            </x-mary-card>
+            </x-card>
         </div>
     </div>
 </x-app-layout>

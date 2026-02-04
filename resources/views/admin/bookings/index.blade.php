@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Gerenciar Agendamentos</h2>
-            <x-mary-select 
+            <x-select 
                 placeholder="Filtrar por status" 
                 :options="[
                     ['value' => '', 'label' => 'Todos'],
@@ -21,12 +21,12 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @if(session('success'))
-                <x-mary-alert icon="o-check-circle" class="alert-success mb-4">
+                <x-alert icon="o-check-circle" class="alert-success mb-4">
                     {{ session('success') }}
-                </x-mary-alert>
+                </x-alert>
             @endif
 
-            <x-mary-card>
+            <x-card>
                 @if($bookings->count() > 0)
                     <div class="overflow-x-auto">
                         <table class="table">
@@ -66,7 +66,7 @@
                                                     <form action="{{ route('admin.bookings.confirm', $booking) }}" method="POST" class="inline">
                                                         @csrf
                                                         @method('PATCH')
-                                                        <x-mary-button type="submit" class="btn-sm btn-info" icon="o-check" 
+                                                        <x-button type="submit" class="btn-sm btn-info" icon="o-check" 
                                                             title="Confirmar" />
                                                     </form>
                                                 @endif
@@ -75,19 +75,19 @@
                                                     <form action="{{ route('admin.bookings.complete', $booking) }}" method="POST" class="inline">
                                                         @csrf
                                                         @method('PATCH')
-                                                        <x-mary-button type="submit" class="btn-sm btn-success" icon="o-check-circle" 
+                                                        <x-button type="submit" class="btn-sm btn-success" icon="o-check-circle" 
                                                             title="Concluir" />
                                                     </form>
                                                 @endif
 
-                                                <x-mary-button link="{{ route('admin.bookings.edit', $booking) }}" 
+                                                <x-button link="{{ route('admin.bookings.edit', $booking) }}" 
                                                     class="btn-sm btn-primary" icon="o-pencil" title="Editar" />
 
                                                 @if(!$booking->isCancelled() && !$booking->isCompleted())
                                                     <form action="{{ route('admin.bookings.cancel', $booking) }}" method="POST" class="inline">
                                                         @csrf
                                                         @method('PATCH')
-                                                        <x-mary-button type="submit" class="btn-sm btn-error" icon="o-x-mark" 
+                                                        <x-button type="submit" class="btn-sm btn-error" icon="o-x-mark" 
                                                             title="Cancelar"
                                                             onclick="return confirm('Deseja cancelar este agendamento?')" />
                                                     </form>
@@ -108,7 +108,7 @@
                         <p class="text-gray-500">Nenhum agendamento encontrado.</p>
                     </div>
                 @endif
-            </x-mary-card>
+            </x-card>
         </div>
     </div>
 </x-app-layout>

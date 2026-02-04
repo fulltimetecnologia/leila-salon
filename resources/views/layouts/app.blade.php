@@ -14,73 +14,81 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
-        <x-mary-main full-width>
-            <x-slot:sidebar drawer="main-drawer" collapsible class="bg-gradient-to-b from-salon-50 to-lavender-50 border-r border-salon-200 lg:bg-inherit">
-                <div class="p-4 border-b border-salon-200">
-                    <a href="{{ route('dashboard') }}">
+    <body class="font-sans antialiased bg-base-200">
+        <x-main full-width>
+            <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100 lg:bg-base-100">
+                <div class="px-6 py-4 border-b border-base-300">
+                    <a href="{{ route('dashboard') }}" class="flex items-center justify-center">
                         <x-application-logo />
                     </a>
                 </div>
 
-                @include('layouts.navigation')
+                <div class="px-2 py-4">
+                    @include('layouts.navigation')
+                </div>
             </x-slot:sidebar>
 
             <x-slot:content>
                 <!-- Top Bar -->
-                <div class="navbar bg-base-100 border-b border-base-300 lg:hidden">
-                    <div class="flex-none">
-                        <label for="main-drawer" class="btn btn-square btn-ghost drawer-button lg:hidden">
-                            <x-mary-icon name="o-bars-3" class="h-6 w-6" />
+                <div class="navbar bg-base-100 border-b border-base-300 sticky top-0 z-10">
+                    <div class="flex-none lg:hidden">
+                        <label for="main-drawer" class="btn btn-square btn-ghost drawer-button">
+                            <x-icon name="o-bars-3" class="h-5 w-5" />
                         </label>
                     </div>
                     <div class="flex-1">
-                        <a href="{{ route('dashboard') }}" class="btn btn-ghost">
-                            <x-application-logo />
+                        <a href="{{ route('dashboard') }}" class="btn btn-ghost text-xl">
+                            <span class="hidden lg:inline">Salão da Leila</span>
+                            <span class="lg:hidden"><x-application-logo /></span>
                         </a>
                     </div>
                     <div class="flex-none">
-                        <x-mary-dropdown>
+                        <div class="hidden lg:flex items-center gap-2 mr-2">
+                            <span class="text-sm">{{ auth()->user()->name }}</span>
+                        </div>
+                        <x-dropdown>
                             <x-slot:trigger>
-                                <x-mary-button icon="o-user-circle" class="btn-circle btn-ghost" />
+                                <x-button icon="o-user-circle" class="btn-circle btn-ghost btn-sm" />
                             </x-slot:trigger>
-                            <x-mary-menu-item title="Perfil" icon="o-user" link="{{ route('profile.edit') }}" />
-                            <x-mary-menu-separator />
+                            <x-menu-item title="Perfil" icon="o-user" link="{{ route('profile.edit') }}" />
+                            <x-menu-separator />
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <x-mary-menu-item title="Sair" icon="o-arrow-right-on-rectangle" 
+                                <x-menu-item title="Sair" icon="o-arrow-right-on-rectangle" 
                                     onclick="event.preventDefault(); this.closest('form').submit();" />
                             </form>
-                        </x-mary-dropdown>
+                        </x-dropdown>
                     </div>
                 </div>
 
-                <!-- Page Heading -->
-                @isset($header)
-                    <header class="bg-gradient-to-r from-salon-50 to-lavender-50 border-b border-salon-200">
-                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                            {{ $header }}
-                        </div>
-                    </header>
-                @endisset
-
                 <!-- Page Content -->
-                <main class="p-4 lg:p-6">
-                    @if(session('success'))
-                        <x-mary-alert icon="o-check-circle" class="alert-success mb-4">
-                            {{ session('success') }}
-                        </x-mary-alert>
-                    @endif
+                <main class="min-h-screen">
+                    <!-- Page Heading -->
+                    @isset($header)
+                        <header class="bg-gradient-to-r from-salon-50 to-lavender-50 border-b border-base-300">
+                            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                                {{ $header }}
+                            </div>
+                        </header>
+                    @endisset
 
-                    @if(session('error'))
-                        <x-mary-alert icon="o-x-circle" class="alert-error mb-4">
-                            {{ session('error') }}
-                        </x-mary-alert>
-                    @endif
+                    <div class="p-4 lg:p-8">
+                        @if(session('success'))
+                            <x-alert icon="o-check-circle" class="alert-success mb-4">
+                                {{ session('success') }}
+                            </x-alert>
+                        @endif
 
-                    {{ $slot }}
+                        @if(session('error'))
+                            <x-alert icon="o-x-circle" class="alert-error mb-4">
+                                {{ session('error') }}
+                            </x-alert>
+                        @endif
+
+                        {{ $slot }}
+                    </div>
                 </main>
             </x-slot:content>
-        </x-mary-main>
+        </x-main>
     </body>
 </html>

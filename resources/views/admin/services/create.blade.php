@@ -5,7 +5,7 @@
 
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <x-mary-card>
+            <x-card>
                 <form action="{{ route('admin.services.store') }}" method="POST">
                     @csrf
 
@@ -87,16 +87,16 @@
                         </div>
 
                         <div class="flex gap-2 pt-4">
-                            <x-mary-button type="submit" class="btn-primary" icon="o-check">
+                            <x-button type="submit" class="btn-primary" icon="o-check">
                                 Criar Serviço
-                            </x-mary-button>
-                            <x-mary-button link="{{ route('admin.services.index') }}" icon="o-x-mark">
+                            </x-button>
+                            <x-button link="{{ route('admin.services.index') }}" icon="o-x-mark">
                                 Cancelar
-                            </x-mary-button>
+                            </x-button>
                         </div>
                     </div>
                 </form>
-            </x-mary-card>
+            </x-card>
         </div>
     </div>
 </x-app-layout>

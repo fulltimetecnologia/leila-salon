@@ -4,51 +4,51 @@
     </x-slot>
 
     <div class="max-w-7xl mx-auto space-y-6">
-        <x-mary-card>
+        <x-card>
             <x-slot:title>
                 <div class="flex items-center gap-2">
-                    <x-mary-icon name="o-adjustments-horizontal" class="w-5 h-5" />
+                    <x-icon name="o-adjustments-horizontal" class="w-5 h-5" />
                     Período de Análise
                 </div>
             </x-slot:title>
             
             <form method="GET" class="flex flex-wrap gap-4 items-end">
-                <x-mary-input 
+                <x-input 
                     label="Data Inicial" 
                     type="date" 
                     name="start_date" 
                     :value="$startDate->format('Y-m-d')"
                     icon="o-calendar"
                 />
-                <x-mary-input 
+                <x-input 
                     label="Data Final" 
                     type="date" 
                     name="end_date" 
                     :value="$endDate->format('Y-m-d')"
                     icon="o-calendar"
                 />
-                <x-mary-button type="submit" class="btn-primary" icon="o-funnel">
+                <x-button type="submit" class="btn-primary" icon="o-funnel">
                     Aplicar Filtro
-                </x-mary-button>
+                </x-button>
             </form>
-        </x-mary-card>
+        </x-card>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <x-mary-stat
+            <x-stat
                 title="Total de Agendamentos"
                 :value="$stats['total_bookings']"
                 icon="o-calendar-days"
                 color="text-salon-500"
             />
 
-            <x-mary-stat
+            <x-stat
                 title="Confirmados"
                 :value="$stats['confirmed_bookings']"
                 icon="o-check-circle"
                 color="text-info"
             />
 
-            <x-mary-stat
+            <x-stat
                 title="Receita Total"
                 value="R$ {{ number_format($stats['total_revenue'], 2, ',', '.') }}"
                 icon="o-currency-dollar"
@@ -57,57 +57,57 @@
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <x-mary-card class="bg-warning/5 border-warning/20">
+            <x-card class="bg-warning/5 border-warning/20">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-600">Pendentes</p>
                         <p class="text-3xl font-bold text-warning">{{ $stats['pending_bookings'] }}</p>
                     </div>
-                    <x-mary-icon name="o-clock" class="w-12 h-12 text-warning/30" />
+                    <x-icon name="o-clock" class="w-12 h-12 text-warning/30" />
                 </div>
-            </x-mary-card>
+            </x-card>
 
-            <x-mary-card class="bg-info/5 border-info/20">
+            <x-card class="bg-info/5 border-info/20">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-600">Confirmados</p>
                         <p class="text-3xl font-bold text-info">{{ $stats['confirmed_bookings'] }}</p>
                     </div>
-                    <x-mary-icon name="o-check-badge" class="w-12 h-12 text-info/30" />
+                    <x-icon name="o-check-badge" class="w-12 h-12 text-info/30" />
                 </div>
-            </x-mary-card>
+            </x-card>
 
-            <x-mary-card class="bg-success/5 border-success/20">
+            <x-card class="bg-success/5 border-success/20">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-600">Concluídos</p>
                         <p class="text-3xl font-bold text-success">{{ $stats['completed_bookings'] }}</p>
                     </div>
-                    <x-mary-icon name="o-check-circle" class="w-12 h-12 text-success/30" />
+                    <x-icon name="o-check-circle" class="w-12 h-12 text-success/30" />
                 </div>
-            </x-mary-card>
+            </x-card>
 
-            <x-mary-card class="bg-error/5 border-error/20">
+            <x-card class="bg-error/5 border-error/20">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-600">Cancelados</p>
                         <p class="text-3xl font-bold text-error">{{ $stats['cancelled_bookings'] }}</p>
                     </div>
-                    <x-mary-icon name="o-x-circle" class="w-12 h-12 text-error/30" />
+                    <x-icon name="o-x-circle" class="w-12 h-12 text-error/30" />
                 </div>
-            </x-mary-card>
+            </x-card>
         </div>
 
-        <x-mary-card>
+        <x-card>
             <x-slot:title>
                 <div class="flex items-center gap-2">
-                    <x-mary-icon name="o-clock" class="w-5 h-5 text-salon-500" />
+                    <x-icon name="o-clock" class="w-5 h-5 text-salon-500" />
                     Próximos Agendamentos
                 </div>
             </x-slot:title>
 
             @if($upcomingBookings->count() > 0)
-                <x-mary-table :headers="[
+                <x-table :headers="[
                     ['key' => 'scheduled', 'label' => 'Quando'],
                     ['key' => 'client', 'label' => 'Cliente'],
                     ['key' => 'service', 'label' => 'Serviço'],
@@ -120,7 +120,7 @@
 
                     @scope('cell_client', $booking)
                         <div class="flex items-center gap-2">
-                            <x-mary-icon name="o-user" class="w-4 h-4 text-gray-400" />
+                            <x-icon name="o-user" class="w-4 h-4 text-gray-400" />
                             {{ $booking->user->name }}
                         </div>
                     @endscope
@@ -136,7 +136,7 @@
                                 'confirmed' => ['class' => 'badge-info', 'label' => 'Confirmado']
                             ][$booking->status] ?? ['class' => 'badge-ghost', 'label' => $booking->status];
                         @endphp
-                        <x-mary-badge :value="$config['label']" class="{{ $config['class'] }}" />
+                        <x-badge :value="$config['label']" class="{{ $config['class'] }}" />
                     @endscope
 
                     @scope('cell_actions', $booking)
@@ -145,33 +145,33 @@
                                 <form action="{{ route('admin.bookings.confirm', $booking) }}" method="POST" class="inline">
                                     @csrf
                                     @method('PATCH')
-                                    <x-mary-button type="submit" class="btn-xs btn-info" icon="o-check" 
+                                    <x-button type="submit" class="btn-xs btn-info" icon="o-check" 
                                         tooltip="Confirmar" />
                                 </form>
                             @endif
-                            <x-mary-button link="{{ route('admin.bookings.edit', $booking) }}" 
+                            <x-button link="{{ route('admin.bookings.edit', $booking) }}" 
                                 class="btn-xs btn-ghost" icon="o-pencil" tooltip="Editar" />
                         </div>
                     @endscope
-                </x-mary-table>
+                </x-table>
             @else
                 <div class="text-center py-8">
-                    <x-mary-icon name="o-calendar-days" class="w-12 h-12 mx-auto text-gray-300 mb-2" />
+                    <x-icon name="o-calendar-days" class="w-12 h-12 mx-auto text-gray-300 mb-2" />
                     <p class="text-gray-500">Nenhum agendamento próximo.</p>
                 </div>
             @endif
-        </x-mary-card>
+        </x-card>
 
-        <x-mary-card>
+        <x-card>
             <x-slot:title>
                 <div class="flex items-center gap-2">
-                    <x-mary-icon name="o-sparkles" class="w-5 h-5 text-lavender-500" />
+                    <x-icon name="o-sparkles" class="w-5 h-5 text-lavender-500" />
                     Agendamentos Recentes
                 </div>
             </x-slot:title>
 
             @if($recentBookings->count() > 0)
-                <x-mary-table :headers="[
+                <x-table :headers="[
                     ['key' => 'created', 'label' => 'Criado em'],
                     ['key' => 'client', 'label' => 'Cliente'],
                     ['key' => 'service', 'label' => 'Serviço'],
@@ -195,23 +195,23 @@
                     @endscope
 
                     @scope('cell_status', $booking)
-                        <x-mary-badge :value="$booking->status" class="badge-sm" />
+                        <x-badge :value="$booking->status" class="badge-sm" />
                     @endscope
-                </x-mary-table>
+                </x-table>
             @else
                 <div class="text-center py-8">
                     <p class="text-gray-500">Nenhum agendamento recente.</p>
                 </div>
             @endif
-        </x-mary-card>
+        </x-card>
 
         <div class="flex gap-4">
-            <x-mary-button link="{{ route('admin.bookings.index') }}" class="btn-primary" icon="o-calendar">
+            <x-button link="{{ route('admin.bookings.index') }}" class="btn-primary" icon="o-calendar">
                 Gerenciar Agendamentos
-            </x-mary-button>
-            <x-mary-button link="{{ route('admin.services.index') }}" class="btn-secondary" icon="o-scissors">
+            </x-button>
+            <x-button link="{{ route('admin.services.index') }}" class="btn-secondary" icon="o-scissors">
                 Gerenciar Serviços
-            </x-mary-button>
+            </x-button>
         </div>
     </div>
 </x-app-layout>

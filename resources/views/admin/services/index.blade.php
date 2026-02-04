@@ -2,16 +2,16 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Gerenciar Serviços</h2>
-            <x-mary-button link="{{ route('admin.services.create') }}" icon="o-plus" class="btn-primary">
+            <x-button link="{{ route('admin.services.create') }}" icon="o-plus" class="btn-primary">
                 Novo Serviço
-            </x-mary-button>
+            </x-button>
         </div>
     </x-slot>
 
     <div class="max-w-7xl mx-auto">
-        <x-mary-card>
+        <x-card>
             @if($services->count() > 0)
-                <x-mary-table :headers="[
+                <x-table :headers="[
                     ['key' => 'name', 'label' => 'Serviço'],
                     ['key' => 'duration', 'label' => 'Duração'],
                     ['key' => 'price', 'label' => 'Preço'],
@@ -22,7 +22,7 @@
                         <div class="flex items-center gap-3">
                             <div class="avatar placeholder">
                                 <div class="bg-lavender-100 text-lavender-600 rounded-full w-10">
-                                    <x-mary-icon name="o-scissors" class="w-5 h-5" />
+                                    <x-icon name="o-scissors" class="w-5 h-5" />
                                 </div>
                             </div>
                             <div>
@@ -36,7 +36,7 @@
 
                     @scope('cell_duration', $service)
                         <div class="flex items-center gap-2">
-                            <x-mary-icon name="o-clock" class="w-4 h-4 text-gray-400" />
+                            <x-icon name="o-clock" class="w-4 h-4 text-gray-400" />
                             <span class="font-medium">{{ $service->duration_minutes }} min</span>
                         </div>
                     @endscope
@@ -48,7 +48,7 @@
                     @endscope
 
                     @scope('cell_active', $service)
-                        <x-mary-badge 
+                        <x-badge 
                             :value="$service->active ? 'Ativo' : 'Inativo'" 
                             class="{{ $service->active ? 'badge-success' : 'badge-error' }}" 
                         />
@@ -56,27 +56,27 @@
 
                     @scope('cell_actions', $service)
                         <div class="flex gap-2">
-                            <x-mary-button link="{{ route('admin.services.edit', $service) }}" 
+                            <x-button link="{{ route('admin.services.edit', $service) }}" 
                                 icon="o-pencil" class="btn-sm btn-primary" tooltip="Editar" />
                             
                             <form action="{{ route('admin.services.destroy', $service) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <x-mary-button type="submit" icon="o-trash" class="btn-sm btn-error"
+                                <x-button type="submit" icon="o-trash" class="btn-sm btn-error"
                                     tooltip="Excluir" onclick="return confirm('Deseja excluir este serviço?')" />
                             </form>
                         </div>
                     @endscope
-                </x-mary-table>
+                </x-table>
             @else
                 <div class="text-center py-12">
-                    <x-mary-icon name="o-scissors" class="w-16 h-16 mx-auto text-gray-300 mb-4" />
+                    <x-icon name="o-scissors" class="w-16 h-16 mx-auto text-gray-300 mb-4" />
                     <p class="text-gray-500 mb-4 text-lg">Nenhum serviço cadastrado.</p>
-                    <x-mary-button link="{{ route('admin.services.create') }}" icon="o-plus" class="btn-primary">
+                    <x-button link="{{ route('admin.services.create') }}" icon="o-plus" class="btn-primary">
                         Criar Primeiro Serviço
-                    </x-mary-button>
+                    </x-button>
                 </div>
             @endif
-        </x-mary-card>
+        </x-card>
     </div>
 </x-app-layout>
