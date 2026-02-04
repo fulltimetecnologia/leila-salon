@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="lailasalon">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="lailasalon" class="scroll-smooth">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -53,10 +53,10 @@
                         Transforme seu visual no Leila Salon. Serviços profissionais de beleza com atendimento personalizado e ambiente acolhedor.
                     </p>
                     <div class="flex gap-4 pt-2">
-                        <a href="{{ route('register') }}" class="btn btn-primary btn-lg no-animation">
+                        <a href="{{ route('register') }}" class="btn btn-primary border-2 btn-lg no-animation rounded-full px-8 py-4 text-lg hover:scale-105 hover:shadow-xl transition-all duration-300">
                             Agendar Agora
                         </a>
-                        <a href="/services" class="btn btn-primary btn-lg no-animation">
+                        <a href="#nossos-servicos" class="btn btn-primary border-2 btn-lg no-animation rounded-full px-8 py-4 text-lg hover:scale-105 hover:shadow-xl transition-all duration-300">
                             Ver Serviços
                         </a>
                     </div>
@@ -85,8 +85,8 @@
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="card bg-white shadow-2xl hover:shadow-3xl transition-all duration-300 border-2 border-pink-100 hover:border-pink-300 rounded-2xl">
                     <div class="card-body items-center text-center p-10">
-                        <div class="w-24 h-24 bg-gradient-to-br from-pink-400 to-purple-400 rounded-full flex items-center justify-center mb-6 shadow-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-12 h-12">
+                        <div class="w-24 h-24 bg-gradient-to-br from-pink-400 to-purple-400 rounded-full flex items-center justify-center mb-6 shadow-lg mx-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-12 h-12 mx-auto">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
                             </svg>
                         </div>
@@ -99,8 +99,8 @@
 
                 <div class="card bg-white shadow-2xl hover:shadow-3xl transition-all duration-300 border-2 border-purple-100 hover:border-purple-300 rounded-2xl">
                     <div class="card-body items-center text-center p-10">
-                        <div class="w-24 h-24 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center mb-6 shadow-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-12 h-12">
+                        <div class="w-24 h-24 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center mb-6 shadow-lg mx-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-12 h-12 mx-auto">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
@@ -113,8 +113,8 @@
 
                 <div class="card bg-white shadow-2xl hover:shadow-3xl transition-all duration-300 border-2 border-rose-100 hover:border-rose-300 rounded-2xl">
                     <div class="card-body items-center text-center p-10">
-                        <div class="w-24 h-24 bg-gradient-to-br from-pink-400 to-rose-400 rounded-full flex items-center justify-center mb-6 shadow-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-12 h-12">
+                        <div class="w-24 h-24 bg-gradient-to-br from-pink-400 to-rose-400 rounded-full flex items-center justify-center mb-6 shadow-lg mx-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-12 h-12 mx-auto">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
                             </svg>
                         </div>
@@ -129,7 +129,7 @@
     </section>
 
     <!-- Services Preview -->
-    <section class="py-20 px-4">
+    <section id="nossos-servicos" class="py-20 px-4">
         <div class="container mx-auto max-w-6xl">
             <div class="text-center mb-12">
                 <h2 class="text-4xl font-bold mb-4 text-gray-800">Nossos Serviços</h2>
@@ -149,7 +149,7 @@
                 @foreach($services as $service)
                 <div class="card bg-white shadow-2xl hover:shadow-3xl hover:-translate-y-2 transition-all duration-300 border-2 border-pink-100 hover:border-pink-300 rounded-2xl">
                     <div class="card-body items-center text-center p-8">
-                        <div class="w-20 h-20 bg-gradient-to-br {{ $service['gradient'] }} rounded-3xl flex items-center justify-center mb-5 shadow-lg">
+                        <div class="w-20 h-20 bg-gradient-to-br {{ $service['gradient'] }} rounded-3xl flex items-center justify-center mb-5 shadow-lg mx-auto">
                             <span class="text-4xl">{{ $service['emoji'] }}</span>
                         </div>
                         <h3 class="font-bold text-gray-800 text-xl">{{ $service['name'] }}</h3>
@@ -159,11 +159,8 @@
             </div>
 
             <div class="text-center mt-12">
-                <a href="/services" class="btn btn-primary btn-lg no-animation">
+                <a href="/register" class="btn btn-primary border-2 btn-lg no-animation rounded-full px-8 py-4 text-lg hover:scale-105 hover:shadow-xl transition-all duration-300">
                     Ver Todos os Serviços
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                    </svg>
                 </a>
             </div>
         </div>
@@ -179,10 +176,10 @@
                 Agende seu horário agora e experimente o melhor em beleza e estilo
             </p>
             <div class="flex gap-4 justify-center">
-                <a href="{{ route('register') }}" class="btn btn-lg btn-outline border-2 border-white text-white hover:bg-white/10 hover:border-white no-animation">
+                <a href="{{ route('register') }}" class="btn btn-lg btn-outline border-2 border-white text-white hover:bg-white/10 hover:border-white no-animation rounded-full px-8 py-4 text-lg">
                     Criar Conta e Agendar
                 </a>
-                <a href="{{ route('login') }}" class="btn btn-lg btn-outline border-2 border-white text-white hover:bg-white/10 hover:border-white no-animation">
+                <a href="{{ route('login') }}" class="btn btn-lg btn-outline border-2 border-white text-white hover:bg-white/10 hover:border-white no-animation rounded-full px-8 py-4 text-lg">
                     Já tenho conta
                 </a>
             </div>
