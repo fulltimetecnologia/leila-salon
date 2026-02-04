@@ -33,12 +33,54 @@ Sistema completo de agendamento online para salão de beleza, desenvolvido com L
 - **Backend**: Laravel 12 (PHP 8.2+)
 - **Frontend**: Mary-UI (Blade + TailwindCSS 4 + DaisyUI)
 - **Autenticação**: Laravel Breeze
-- **Banco de Dados**: SQLite (pode ser alterado para MySQL/PostgreSQL)
+- **Banco de Dados**: MySQL (via Docker)
+- **Docker**: Laravel Sail
 - **Arquitetura**: MVC com Actions e Services
 
 ## Instalação
 
-- Ainda vou instalar docker...
+### Pré-requisitos
+- Docker Desktop instalado
+
+### Passos
+
+1. **Clone o repositório e entre na pasta**
+```bash
+git clone [https://github.com/fulltimetecnologia/leila-salon]
+cd leila-salon
+```
+
+2. **Copiar o arquivo .env**
+```bash
+cp .env.example .env
+```
+
+3. **Instalar dependências**
+```bash
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v $(pwd):/var/www/html \
+    -w /var/www/html \
+    laravelsail/php83-composer:latest \
+    composer install --ignore-platform-reqs
+```
+
+4. **Criar containers com Sail**
+```bash
+./vendor/bin/sail up -d
+```
+
+5. **Criar e popular banco de dados**
+```bash
+./vendor/bin/sail artisan migrate:fresh --seed
+```
+
+6. **Instalar dependências front-end**
+```bash
+./vendor/bin/sail composer start
+```
+
+**Acessar:** http://localhost
 
 ## Usuários de Teste
 
@@ -104,8 +146,87 @@ Após executar os seeders, você terá acesso a:
 - `/admin/bookings` - Gerenciar agendamentos
 - `/admin/services` - Gerenciar serviços
 
+## Estrutura de Banco de Dados
+
+### Tabela: users
+- `id` - Identificador único
+- `name` - Nome do usuário
+- `email` - Email (único)
+- `password` - Senha (hash)
+- `role` - Papel do usuário (`client` ou `admin`)
+- `timestamps` - created_at, updated_at
+
+### Tabela: services
+- `id` - Identificador único
+- `name` - Nome do serviço
+- `description` - Descrição do serviço (nullable)
+- `duration_minutes` - Duração em minutos
+- `price` - Preço (decimal)
+- `active` - Serviço ativo (boolean)
+- `timestamps` - created_at, updated_at
+
+### Tabela: bookings
+- `id` - Identificador único
+- `user_id` - ID do cliente (foreign key)
+- `service_id` - ID do serviço (foreign key)
+- `scheduled_at` - Data e hora agendada
+- `status` - Status: `pending`, `confirmed`, `completed`, `cancelled`
+- `notes` - Observações (nullable)
+- `timestamps` - created_at, updated_at
+
+## Desenvolvimento
+
 ### Arquitetura
 - **MVC**: Separação clara entre Models, Views e Controllers
 - **Services**: Lógica de negócio complexa
 - **Actions**: Operações específicas e reutilizáveis
 - **Policies**: Autorização centralizada
+
+### Padrões de Código
+- Código limpo, sem comentários desnecessários
+- Reaproveitamento de código via Services e Actions
+- Uso de Policies para autorização
+- Validação de dados em todos os formulários
+
+## Troubleshooting
+
+### Erro "Port already in use"
+```bash
+# Parar containers
+./vendor/bin/sail down
+
+# Verificar se há processos usando a porta 80
+lsof -i :80
+
+# Alterar a porta no .env
+APP_PORT=8080
+
+# Subir novamente
+./vendor/bin/sail up -d
+```
+
+### MySQL não conecta
+```bash
+# Verificar status do container
+docker ps
+
+# Ver logs do MySQL
+./vendor/bin/sail logs mysql
+
+# Recriar containers
+./vendor/bin/sail down -v
+./vendor/bin/sail up -d
+```
+
+### Limpar cache
+```bash
+./vendor/bin/sail artisan config:clear
+./vendor/bin/sail artisan cache:clear
+./vendor/bin/sail artisan view:clear
+./vendor/bin/sail artisan route:clear
+```
+
+### Recriar banco de dados
+```bash
+./vendor/bin/sail artisan migrate:fresh --seed
+```
