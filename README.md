@@ -46,7 +46,7 @@ Sistema completo de agendamento online para salão de beleza, desenvolvido com L
 
 1. **Clone o repositório e entre na pasta**
 ```bash
-git clone [https://github.com/fulltimetecnologia/leila-salon]
+git clone https://github.com/fulltimetecnologia/leila-salon
 cd leila-salon
 ```
 
