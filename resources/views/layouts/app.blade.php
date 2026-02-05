@@ -13,6 +13,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @livewireStyles
     </head>
     <body class="font-sans antialiased bg-base-200">
         <x-main full-width>
@@ -90,5 +91,7 @@
                 </main>
             </x-slot:content>
         </x-main>
+        
+        @livewireScripts
     </body>
 </html>

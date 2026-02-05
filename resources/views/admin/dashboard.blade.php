@@ -107,53 +107,58 @@
             </x-slot:title>
 
             @if($upcomingBookings->count() > 0)
-                <x-table :headers="[
-                    ['key' => 'scheduled', 'label' => 'Quando'],
-                    ['key' => 'client', 'label' => 'Cliente'],
-                    ['key' => 'service', 'label' => 'Serviço'],
-                    ['key' => 'status', 'label' => 'Status'],
-                    ['key' => 'actions', 'label' => 'Ações', 'sortable' => false]
-                ]" :rows="$upcomingBookings" striped>
-                    @scope('cell_scheduled', $booking)
-                        <span class="font-medium">{{ $booking->scheduled_at->format('d/m H:i') }}</span>
-                    @endscope
-
-                    @scope('cell_client', $booking)
-                        <div class="flex items-center gap-2">
-                            <x-icon name="o-user" class="w-4 h-4 text-gray-400" />
-                            {{ $booking->user->name }}
-                        </div>
-                    @endscope
-
-                    @scope('cell_service', $booking)
-                        {{ $booking->service->name }}
-                    @endscope
-
-                    @scope('cell_status', $booking)
-                        @php
-                            $config = [
-                                'pending' => ['class' => 'badge-warning', 'label' => 'Pendente'],
-                                'confirmed' => ['class' => 'badge-info', 'label' => 'Confirmado']
-                            ][$booking->status] ?? ['class' => 'badge-ghost', 'label' => $booking->status];
-                        @endphp
-                        <x-badge :value="$config['label']" class="{{ $config['class'] }}" />
-                    @endscope
-
-                    @scope('cell_actions', $booking)
-                        <div class="flex gap-1">
-                            @if($booking->isPending())
-                                <form action="{{ route('admin.bookings.confirm', $booking) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('PATCH')
-                                    <x-button type="submit" class="btn-xs btn-info" icon="o-check" 
-                                        tooltip="Confirmar" />
-                                </form>
-                            @endif
-                            <x-button link="{{ route('admin.bookings.edit', $booking) }}" 
-                                class="btn-xs btn-ghost" icon="o-pencil" tooltip="Editar" />
-                        </div>
-                    @endscope
-                </x-table>
+                <div class="overflow-x-auto">
+                    <table class="table table-zebra">
+                        <thead>
+                            <tr>
+                                <th>Quando</th>
+                                <th>Cliente</th>
+                                <th>Serviço</th>
+                                <th>Status</th>
+                                <th class="text-right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($upcomingBookings as $booking)
+                                <tr>
+                                    <td>
+                                        <span class="font-medium">{{ $booking->scheduled_at->format('d/m H:i') }}</span>
+                                    </td>
+                                    <td>
+                                        <div class="flex items-center gap-2">
+                                            <x-icon name="o-user" class="w-4 h-4 text-gray-400" />
+                                            {{ $booking->user->name }}
+                                        </div>
+                                    </td>
+                                    <td>{{ $booking->service->name }}</td>
+                                    <td>
+                                        @php
+                                            $config = [
+                                                'pending' => ['class' => 'badge-warning', 'label' => 'Pendente'],
+                                                'confirmed' => ['class' => 'badge-info', 'label' => 'Confirmado']
+                                            ][$booking->status] ?? ['class' => 'badge-ghost', 'label' => $booking->status];
+                                        @endphp
+                                        <x-badge :value="$config['label']" class="{{ $config['class'] }}" />
+                                    </td>
+                                    <td class="text-right">
+                                        <div class="flex gap-1 justify-end">
+                                            @if($booking->isPending())
+                                                <form action="{{ route('admin.bookings.confirm', $booking) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <x-button type="submit" class="btn-xs btn-info" icon="o-check" 
+                                                        tooltip="Confirmar" />
+                                                </form>
+                                            @endif
+                                            <x-button link="{{ route('admin.bookings.edit', $booking) }}" 
+                                                class="btn-xs btn-ghost" icon="o-pencil" tooltip="Editar" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             @else
                 <div class="text-center py-8">
                     <x-icon name="o-calendar-days" class="w-12 h-12 mx-auto text-gray-300 mb-2" />
@@ -171,33 +176,30 @@
             </x-slot:title>
 
             @if($recentBookings->count() > 0)
-                <x-table :headers="[
-                    ['key' => 'created', 'label' => 'Criado em'],
-                    ['key' => 'client', 'label' => 'Cliente'],
-                    ['key' => 'service', 'label' => 'Serviço'],
-                    ['key' => 'scheduled', 'label' => 'Agendado para'],
-                    ['key' => 'status', 'label' => 'Status']
-                ]" :rows="$recentBookings" striped>
-                    @scope('cell_created', $booking)
-                        {{ $booking->created_at->format('d/m H:i') }}
-                    @endscope
-
-                    @scope('cell_client', $booking)
-                        {{ $booking->user->name }}
-                    @endscope
-
-                    @scope('cell_service', $booking)
-                        {{ $booking->service->name }}
-                    @endscope
-
-                    @scope('cell_scheduled', $booking)
-                        {{ $booking->scheduled_at->format('d/m H:i') }}
-                    @endscope
-
-                    @scope('cell_status', $booking)
-                        <x-badge :value="$booking->status" class="badge-sm" />
-                    @endscope
-                </x-table>
+                <div class="overflow-x-auto">
+                    <table class="table table-zebra">
+                        <thead>
+                            <tr>
+                                <th>Criado em</th>
+                                <th>Cliente</th>
+                                <th>Serviço</th>
+                                <th>Agendado para</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($recentBookings as $booking)
+                                <tr>
+                                    <td>{{ $booking->created_at->format('d/m H:i') }}</td>
+                                    <td>{{ $booking->user->name }}</td>
+                                    <td>{{ $booking->service->name }}</td>
+                                    <td>{{ $booking->scheduled_at->format('d/m H:i') }}</td>
+                                    <td><x-badge :value="$booking->status" class="badge-sm" /></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             @else
                 <div class="text-center py-8">
                     <p class="text-gray-500">Nenhum agendamento recente.</p>
