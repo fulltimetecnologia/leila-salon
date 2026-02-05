@@ -3,9 +3,7 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Novo Serviço</h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <x-card>
+    <x-card>
                 <form action="{{ route('admin.services.store') }}" method="POST">
                     @csrf
 
@@ -96,7 +94,5 @@
                         </div>
                     </div>
                 </form>
-            </x-card>
-        </div>
-    </div>
+    </x-card>
 </x-app-layout>

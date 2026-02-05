@@ -3,24 +3,28 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Editar Agendamento</h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <x-card>
+    <x-card>
                 <form action="{{ route('bookings.update', $booking) }}" method="POST">
                     @csrf
                     @method('PUT')
 
                     <div class="space-y-4">
                         <div>
-                            <x-select 
-                                label="Serviço" 
+                            <label class="label">
+                                <span class="label-text">Serviço *</span>
+                            </label>
+                            <select 
                                 name="service_id" 
-                                :options="$services" 
-                                option-value="id" 
-                                option-label="name"
-                                :value="$booking->service_id"
+                                class="select select-bordered w-full border-2 border-gray-300 focus:border-primary @error('service_id') select-error border-error @enderror"
                                 required
-                            />
+                            >
+                                <option value="" disabled>Selecione um serviço</option>
+                                @foreach($services as $service)
+                                    <option value="{{ $service->id }}" {{ old('service_id', $booking->service_id) == $service->id ? 'selected' : '' }}>
+                                        {{ $service->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                             @error('service_id')
                                 <span class="text-error text-sm">{{ $message }}</span>
                             @enderror
@@ -69,7 +73,5 @@
                         </div>
                     </div>
                 </form>
-            </x-card>
-        </div>
-    </div>
+    </x-card>
 </x-app-layout>

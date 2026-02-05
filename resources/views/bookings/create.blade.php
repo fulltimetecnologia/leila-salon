@@ -6,33 +6,53 @@
         </div>
     </x-slot>
 
-    <div class="max-w-3xl mx-auto">
-        <x-card>
+    <x-card>
+            <x-alert icon="o-information-circle" class="alert-info mb-6">
+                <span class="font-medium">Agendamento deve ser feito com pelo menos 24h de antecedência</span>
+            </x-alert>
+
             <form action="{{ route('bookings.store') }}" method="POST" class="space-y-6">
                 @csrf
 
-                <x-select 
-                    label="Serviço" 
-                    name="service_id" 
-                    :options="$services" 
-                    option-value="id" 
-                    option-label="name"
-                    placeholder="Selecione um serviço"
-                    icon="o-sparkles"
-                    hint="Escolha o serviço que deseja agendar"
-                    required
-                />
+                <div>
+                    <label class="label">
+                        <span class="label-text">Serviço *</span>
+                    </label>
+                    <select 
+                        name="service_id" 
+                        class="select select-bordered w-full border-2 border-gray-300 focus:border-primary @error('service_id') select-error border-error @enderror"
+                        required
+                    >
+                        <option value="" disabled selected>Selecione um serviço</option>
+                        @foreach($services as $service)
+                            <option value="{{ $service->id }}" {{ old('service_id') == $service->id ? 'selected' : '' }}>
+                                {{ $service->name }} - R$ {{ number_format($service->price, 2, ',', '.') }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('service_id')
+                        <span class="text-error text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                <x-input
-                    label="Data e Hora do Agendamento"
-                    type="datetime-local"
-                    name="scheduled_at"
-                    :value="old('scheduled_at')"
-                    min="{{ now()->addDay()->format('Y-m-d\TH:i') }}"
-                    icon="o-calendar"
-                    hint="Agendamento deve ser feito com pelo menos 24h de antecedência"
-                    required
-                />
+                <div>
+                    <label class="label">
+                        <span class="label-text">Data e Hora do Agendamento *</span>
+                    </label>
+                    <div class="relative">
+                        <input 
+                            type="datetime-local"
+                            name="scheduled_at"
+                            value="{{ old('scheduled_at') }}"
+                            min="{{ now()->addDay()->format('Y-m-d\TH:i') }}"
+                            class="input input-bordered w-full pl-10 border-2 border-gray-300 focus:border-primary @error('scheduled_at') input-error border-error @enderror"
+                            required
+                        />
+                    </div>
+                    @error('scheduled_at')
+                        <span class="text-error text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
 
                 <x-textarea 
                     label="Observações" 
@@ -40,15 +60,15 @@
                     :value="old('notes')" 
                     rows="3"
                     placeholder="Alguma observação sobre o agendamento?"
-                    hint="Opcional - Informe preferências ou pedidos especiais"
+                    class="textarea-bordered border-2 border-gray-300 focus:border-primary"
                 />
 
-                <div class="flex gap-3 pt-4">
-                    <x-button type="submit" class="btn-primary flex-1" icon="o-check">
-                        Confirmar Agendamento
-                    </x-button>
+                <div class="flex gap-3 pt-4 justify-end">
                     <x-button link="{{ route('bookings.index') }}" class="btn-ghost" icon="o-x-mark">
                         Cancelar
+                    </x-button>
+                    <x-button type="submit" class="btn-primary" icon="o-check">
+                        Confirmar Agendamento
                     </x-button>
                 </div>
             </form>
@@ -86,6 +106,5 @@
                     </div>
                 @endforeach
             </div>
-        </x-card>
-    </div>
+    </x-card>
 </x-app-layout>

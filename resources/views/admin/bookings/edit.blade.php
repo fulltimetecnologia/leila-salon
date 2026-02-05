@@ -3,9 +3,7 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Editar Agendamento (Admin)</h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <x-card>
+    <x-card>
                 <form action="{{ route('admin.bookings.update', $booking) }}" method="POST">
                     @csrf
                     @method('PUT')
@@ -17,15 +15,21 @@
                         </div>
 
                         <div>
-                            <x-select 
-                                label="Serviço" 
+                            <label class="label">
+                                <span class="label-text">Serviço *</span>
+                            </label>
+                            <select 
                                 name="service_id" 
-                                :options="$services" 
-                                option-value="id" 
-                                option-label="name"
-                                :value="$booking->service_id"
+                                class="select select-bordered w-full border-2 border-gray-300 focus:border-primary @error('service_id') select-error border-error @enderror"
                                 required
-                            />
+                            >
+                                <option value="" disabled>Selecione um serviço</option>
+                                @foreach($services as $service)
+                                    <option value="{{ $service->id }}" {{ old('service_id', $booking->service_id) == $service->id ? 'selected' : '' }}>
+                                        {{ $service->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                             @error('service_id')
                                 <span class="text-error text-sm">{{ $message }}</span>
                             @enderror
@@ -46,20 +50,19 @@
                         </div>
 
                         <div>
-                            <x-select 
-                                label="Status" 
+                            <label class="label">
+                                <span class="label-text">Status *</span>
+                            </label>
+                            <select 
                                 name="status" 
-                                :options="[
-                                    ['value' => 'pending', 'label' => 'Pendente'],
-                                    ['value' => 'confirmed', 'label' => 'Confirmado'],
-                                    ['value' => 'completed', 'label' => 'Concluído'],
-                                    ['value' => 'cancelled', 'label' => 'Cancelado']
-                                ]"
-                                option-value="value"
-                                option-label="label"
-                                :value="$booking->status"
+                                class="select select-bordered w-full border-2 border-gray-300 focus:border-primary @error('status') select-error border-error @enderror"
                                 required
-                            />
+                            >
+                                <option value="pending" {{ old('status', $booking->status) == 'pending' ? 'selected' : '' }}>Pendente</option>
+                                <option value="confirmed" {{ old('status', $booking->status) == 'confirmed' ? 'selected' : '' }}>Confirmado</option>
+                                <option value="completed" {{ old('status', $booking->status) == 'completed' ? 'selected' : '' }}>Concluído</option>
+                                <option value="cancelled" {{ old('status', $booking->status) == 'cancelled' ? 'selected' : '' }}>Cancelado</option>
+                            </select>
                             @error('status')
                                 <span class="text-error text-sm">{{ $message }}</span>
                             @enderror
@@ -87,7 +90,5 @@
                         </div>
                     </div>
                 </form>
-            </x-card>
-        </div>
-    </div>
+    </x-card>
 </x-app-layout>

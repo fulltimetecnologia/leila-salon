@@ -8,8 +8,7 @@
         </div>
     </x-slot>
 
-    <div class="max-w-7xl mx-auto">
-        <x-card>
+    <x-card>
             @if($services->count() > 0)
                 <div class="overflow-x-auto">
                     <table class="table table-zebra">
@@ -84,6 +83,5 @@
                     </x-button>
                 </div>
             @endif
-        </x-card>
-    </div>
+    </x-card>
 </x-app-layout>

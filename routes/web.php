@@ -16,8 +16,8 @@ Route::get('/services', [ServiceController::class, 'index'])->name('services.ind
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    Route::resource('bookings', BookingController::class);
     Route::get('/bookings/history', [BookingController::class, 'history'])->name('bookings.history');
+    Route::resource('bookings', BookingController::class);
     
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

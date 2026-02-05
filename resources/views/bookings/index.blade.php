@@ -8,8 +8,7 @@
         </div>
     </x-slot>
 
-    <div class="max-w-7xl mx-auto">
-        @if(session('suggested_date'))
+    @if(session('suggested_date'))
             <x-alert icon="o-information-circle" class="alert-info mb-4">
                 Você já tem um agendamento para esta semana em {{ session('suggested_date')->format('d/m/Y H:i') }}.
                 Recomendamos agendar os serviços na mesma data!
@@ -93,7 +92,6 @@
                         Criar Primeiro Agendamento
                     </x-button>
                 </div>
-            @endif
-        </x-card>
-    </div>
+        @endif
+    </x-card>
 </x-app-layout>

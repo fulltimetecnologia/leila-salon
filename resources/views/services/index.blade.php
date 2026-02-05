@@ -6,8 +6,7 @@
         </div>
     </x-slot>
 
-    <div class="max-w-7xl mx-auto">
-        <div class="mb-6 text-center">
+    <div class="mb-6 text-center">
             <p class="text-gray-600">Oferecemos uma variedade de serviços para realçar sua beleza e bem-estar.</p>
         </div>
 
@@ -75,5 +74,4 @@
                 </x-card>
             </div>
         @endauth
-    </div>
 </x-app-layout>

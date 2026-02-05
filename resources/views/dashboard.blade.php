@@ -5,8 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="max-w-7xl mx-auto space-y-8">
-        @if(auth()->user()->isAdmin())
+    @if(auth()->user()->isAdmin())
             <x-alert icon="o-shield-check" class="alert-info">
                 <div class="flex items-center justify-between w-full">
                     <span>Você está logado como administrador.</span>
@@ -17,7 +16,7 @@
             </x-alert>
         @endif
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
             <x-card class="bg-gradient-to-br from-salon-50 to-salon-100 border-salon-200">
                 <div class="flex items-center gap-4">
                     <div class="p-4 bg-white rounded-full">
@@ -55,7 +54,7 @@
             </x-card>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
             <x-card>
                 <x-slot:title>
                     <div class="flex items-center gap-2">
@@ -90,7 +89,7 @@
             </x-card>
         </div>
 
-        <x-card class="bg-gradient-to-r from-salon-50 to-lavender-50">
+        <x-card class="bg-gradient-to-r from-salon-50 to-lavender-50 mt-6">
             <x-slot:title>
                 <div class="flex items-center gap-2">
                     <x-icon name="o-clock" class="w-5 h-5 text-salon-500" />
@@ -103,5 +102,4 @@
                 Consultar Histórico
             </x-button>
         </x-card>
-    </div>
 </x-app-layout>

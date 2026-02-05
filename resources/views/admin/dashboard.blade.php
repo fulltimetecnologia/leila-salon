@@ -3,37 +3,72 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard Administrativo</h2>
     </x-slot>
 
-    <div class="max-w-7xl mx-auto space-y-6">
-        <x-card>
-            <x-slot:title>
-                <div class="flex items-center gap-2">
-                    <x-icon name="o-adjustments-horizontal" class="w-5 h-5" />
-                    Período de Análise
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+        <form method="GET" id="filter-form">
+            <div class="flex items-center gap-2 mb-4 text-sm text-gray-700">
+                <x-icon name="o-funnel" class="w-5 h-5 text-salon-500" />
+                <span class="font-semibold">Período:</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="label">
+                        <span class="label-text">Data Inicial</span>
+                    </label>
+                    <input 
+                        type="date" 
+                        name="start_date" 
+                        class="input input-bordered w-full border-2 border-gray-300 focus:border-primary"
+                        value="{{ $startDate->format('Y-m-d') }}"
+                        id="start_date"
+                    />
                 </div>
-            </x-slot:title>
-            
-            <form method="GET" class="flex flex-wrap gap-4 items-end">
-                <x-input 
-                    label="Data Inicial" 
-                    type="date" 
-                    name="start_date" 
-                    :value="$startDate->format('Y-m-d')"
-                    icon="o-calendar"
-                />
-                <x-input 
-                    label="Data Final" 
-                    type="date" 
-                    name="end_date" 
-                    :value="$endDate->format('Y-m-d')"
-                    icon="o-calendar"
-                />
-                <x-button type="submit" class="btn-primary" icon="o-funnel">
-                    Aplicar Filtro
-                </x-button>
-            </form>
-        </x-card>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label class="label">
+                        <span class="label-text">Data Final</span>
+                    </label>
+                    <input 
+                        type="date" 
+                        name="end_date" 
+                        class="input input-bordered w-full border-2 border-gray-300 focus:border-primary"
+                        value="{{ $endDate->format('Y-m-d') }}"
+                        id="end_date"
+                    />
+                </div>
+
+                <div class="flex items-end">
+                    <x-button type="submit" class="btn-primary" icon="o-magnifying-glass">
+                        Filtrar
+                    </x-button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const startDate = document.getElementById('start_date');
+            const endDate = document.getElementById('end_date');
+            const form = document.getElementById('filter-form');
+            
+            form.addEventListener('submit', function(e) {
+                if (startDate.value && endDate.value && endDate.value < startDate.value) {
+                    e.preventDefault();
+                    alert('A data final não pode ser menor que a data inicial.');
+                }
+            });
+            
+            startDate.addEventListener('change', function() {
+                endDate.min = this.value;
+            });
+            
+            if (startDate.value) {
+                endDate.min = startDate.value;
+            }
+        });
+    </script>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
             <x-stat
                 title="Total de Agendamentos"
                 :value="$stats['total_bookings']"
@@ -56,7 +91,7 @@
             />
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
             <x-card class="bg-warning/5 border-warning/20">
                 <div class="flex items-center justify-between">
                     <div>
@@ -98,7 +133,7 @@
             </x-card>
         </div>
 
-        <x-card>
+        <x-card class="mt-6">
             <x-slot:title>
                 <div class="flex items-center gap-2">
                     <x-icon name="o-clock" class="w-5 h-5 text-salon-500" />
@@ -167,7 +202,7 @@
             @endif
         </x-card>
 
-        <x-card>
+        <x-card class="mt-6">
             <x-slot:title>
                 <div class="flex items-center gap-2">
                     <x-icon name="o-sparkles" class="w-5 h-5 text-lavender-500" />
@@ -206,14 +241,4 @@
                 </div>
             @endif
         </x-card>
-
-        <div class="flex gap-4">
-            <x-button link="{{ route('admin.bookings.index') }}" class="btn-primary" icon="o-calendar">
-                Gerenciar Agendamentos
-            </x-button>
-            <x-button link="{{ route('admin.services.index') }}" class="btn-secondary" icon="o-scissors">
-                Gerenciar Serviços
-            </x-button>
-        </div>
-    </div>
 </x-app-layout>

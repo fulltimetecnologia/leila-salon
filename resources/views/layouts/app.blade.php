@@ -11,13 +11,17 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <!-- Flatpickr -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
     </head>
     <body class="font-sans antialiased bg-base-200">
         <x-main full-width>
-            <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100 lg:bg-base-100">
+            <x-slot:sidebar drawer="main-drawer" class="bg-base-100 lg:bg-base-100">
                 <div class="px-6 py-4 border-b border-base-300">
                     <a href="{{ route('dashboard') }}" class="flex items-center justify-center">
                         <x-application-logo />
@@ -38,10 +42,14 @@
                         </label>
                     </div>
                     <div class="flex-1">
-                        <a href="{{ route('dashboard') }}" class="btn btn-ghost text-xl">
-                            <span class="hidden lg:inline">Salão da Leila</span>
-                            <span class="lg:hidden"><x-application-logo /></span>
-                        </a>
+                        @isset($header)
+                            <div class="hidden lg:block text-xl font-semibold px-4">
+                                {{ $header }}
+                            </div>
+                        @endisset
+                        <div class="lg:hidden">
+                            <x-application-logo />
+                        </div>
                     </div>
                     <div class="flex-none">
                         <div class="hidden lg:flex items-center gap-2 mr-2">
@@ -64,16 +72,7 @@
 
                 <!-- Page Content -->
                 <main class="min-h-screen">
-                    <!-- Page Heading -->
-                    @isset($header)
-                        <header class="bg-gradient-to-r from-salon-50 to-lavender-50 border-b border-base-300">
-                            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                                {{ $header }}
-                            </div>
-                        </header>
-                    @endisset
-
-                    <div class="p-4 lg:p-8">
+                    <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
                         @if(session('success'))
                             <x-alert icon="o-check-circle" class="alert-success mb-4">
                                 {{ session('success') }}

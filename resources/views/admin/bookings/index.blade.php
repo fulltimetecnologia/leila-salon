@@ -2,31 +2,20 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Gerenciar Agendamentos</h2>
-            <x-select 
-                placeholder="Filtrar por status" 
-                :options="[
-                    ['value' => '', 'label' => 'Todos'],
-                    ['value' => 'pending', 'label' => 'Pendentes'],
-                    ['value' => 'confirmed', 'label' => 'Confirmados'],
-                    ['value' => 'completed', 'label' => 'Concluídos'],
-                    ['value' => 'cancelled', 'label' => 'Cancelados']
-                ]"
-                option-value="value"
-                option-label="label"
+            <select 
+                class="select select-bordered w-64 border-2 border-gray-300 focus:border-primary"
                 onchange="window.location.href='?status=' + this.value"
-            />
+            >
+                <option value="">Todos</option>
+                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pendentes</option>
+                <option value="confirmed" {{ request('status') == 'confirmed' ? 'selected' : '' }}>Confirmados</option>
+                <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Concluídos</option>
+                <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelados</option>
+            </select>
         </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            @if(session('success'))
-                <x-alert icon="o-check-circle" class="alert-success mb-4">
-                    {{ session('success') }}
-                </x-alert>
-            @endif
-
-            <x-card>
+    <x-card>
                 @if($bookings->count() > 0)
                     <div class="overflow-x-auto">
                         <table class="table">
@@ -108,7 +97,5 @@
                         <p class="text-gray-500">Nenhum agendamento encontrado.</p>
                     </div>
                 @endif
-            </x-card>
-        </div>
-    </div>
+    </x-card>
 </x-app-layout>

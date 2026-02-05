@@ -3,9 +3,7 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Detalhes do Agendamento</h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <x-card>
+    <x-card>
                 <div class="space-y-4">
                     <div>
                         <label class="font-semibold text-gray-700">Serviço:</label>
@@ -83,7 +81,5 @@
                         @endif
                     </div>
                 </div>
-            </x-card>
-        </div>
-    </div>
+    </x-card>
 </x-app-layout>

@@ -1,4 +1,6 @@
 <x-menu activate-by-route>
+    <x-menu-item title="Home" icon="o-home" link="{{ route('dashboard') }}" />
+    
     @if(!Auth::user()->isAdmin())
         <x-menu-separator title="ÁREA DO CLIENTE" />
         <x-menu-item title="Dashboard" icon="o-home" link="{{ route('dashboard') }}" />
