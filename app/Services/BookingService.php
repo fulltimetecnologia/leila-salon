@@ -49,34 +49,4 @@ class BookingService
             'total_revenue' => $bookings->where('status', 'completed')->sum(fn ($b) => $b->service->price),
         ];
     }
-
-    public function getAvailableSlots(Carbon $date, int $serviceDuration): array
-    {
-        $startHour = 9;
-        $endHour = 18;
-        $slots = [];
-
-        $currentTime = $date->copy()->setTime($startHour, 0);
-        $endTime = $date->copy()->setTime($endHour, 0);
-
-        while ($currentTime->lessThan($endTime)) {
-            $slotEnd = $currentTime->copy()->addMinutes($serviceDuration);
-
-            if ($slotEnd->lessThanOrEqualTo($endTime)) {
-                $isAvailable = ! Booking::where('scheduled_at', $currentTime)
-                    ->whereIn('status', ['pending', 'confirmed'])
-                    ->exists();
-
-                $slots[] = [
-                    'time' => $currentTime->format('H:i'),
-                    'datetime' => $currentTime->copy(),
-                    'available' => $isAvailable,
-                ];
-            }
-
-            $currentTime->addMinutes(30);
-        }
-
-        return $slots;
-    }
 }
