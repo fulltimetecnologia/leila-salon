@@ -2,6 +2,12 @@
 
 Sistema completo de agendamento online para salão de beleza, desenvolvido com Laravel 12, Mary-UI (TailwindCSS + DaisyUI), e Livewire.
 
+## Vídeos Demo
+
+[Assistir Instalação](wiki/instalacao.mp4)
+
+[Assistir Funcionalidades na prática](wiki/funcionalidade.mp4)
+
 ## Funcionalidades Implementadas
 
 ### Para Clientes
