@@ -87,12 +87,12 @@ docker run --rm \
 Após executar os seeders, você terá acesso a:
 
 **Administrador (Leila)**
-- Email: leila@salao.com
+- Email: leila@salon.com.br
 - Senha: password
 - Acesso total ao sistema
 
-**Cliente Teste**
-- Email: cliente@test.com
+**Larissa Castro**
+- Email: larissa.castro@gmail.com
 - Senha: password
 - Acesso cliente
 
