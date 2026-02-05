@@ -17,6 +17,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/bookings/history', [BookingController::class, 'history'])->name('bookings.history');
+    Route::get('/bookings/available-slots', [BookingController::class, 'availableSlots'])->name('bookings.available-slots');
+    Route::get('/bookings/check-suggested-date', [BookingController::class, 'checkSuggestedDate'])->name('bookings.check-suggested-date');
     Route::resource('bookings', BookingController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

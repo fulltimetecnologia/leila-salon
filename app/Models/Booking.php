@@ -59,7 +59,10 @@ class Booking extends Model
 
     public function scopeInPeriod($query, $startDate, $endDate)
     {
-        return $query->whereBetween('scheduled_at', [$startDate, $endDate]);
+        $start = \Carbon\Carbon::parse($startDate)->startOfDay();
+        $end = \Carbon\Carbon::parse($endDate)->endOfDay();
+        
+        return $query->whereBetween('scheduled_at', [$start, $end]);
     }
 
     public function canBeModified(): bool

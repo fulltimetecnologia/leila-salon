@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            Bem-vinda, {{ auth()->user()->name }}!
+            Bem-vinda, {{ currentUser()->name }}!
         </h2>
     </x-slot>
 
-    @if (auth()->user()->isAdmin())
+    @if (currentUser()->isAdmin())
         <x-alert icon="o-shield-check" class="alert-info">
             <div class="flex items-center justify-end w-full gap-4">
                 <span class="mr-auto">Você está logado como administrador.</span>

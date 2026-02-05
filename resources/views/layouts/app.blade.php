@@ -56,7 +56,7 @@
                         </div>
                         <div class="flex-none">
                             <div class="hidden lg:flex items-center gap-2 mr-2">
-                                <span class="text-sm">{{ auth()->user()->name }}</span>
+                                <span class="text-sm">{{ currentUser()->name }}</span>
                             </div>
                             <x-dropdown>
                                 <x-slot:trigger>
@@ -95,6 +95,8 @@
             </main>
         </x-slot:content>
     </x-main>
+
+    @stack('scripts')
 </body>
 
 </html>

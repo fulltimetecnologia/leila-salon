@@ -6,9 +6,11 @@ use App\Actions\CreateBookingAction;
 use App\Actions\UpdateBookingAction;
 use App\Models\Booking;
 use App\Models\Service;
+use App\Rules\ValidBookingTime;
 use App\Services\BookingService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class BookingController extends Controller
 {
@@ -20,7 +22,7 @@ class BookingController extends Controller
 
     public function index(Request $request)
     {
-        $bookings = Booking::where('user_id', auth()->id())
+        $bookings = Booking::where('user_id', currentUserId())
             ->with('service')
             ->latest('scheduled_at')
             ->paginate(10);
@@ -39,25 +41,24 @@ class BookingController extends Controller
     {
         $validated = $request->validate([
             'service_id' => 'required|exists:services,id',
-            'scheduled_at' => 'required|date|after:now',
+            'scheduled_at' => ['required', 'date', 'after:now', new ValidBookingTime($request->service_id)],
             'notes' => 'nullable|string|max:500',
         ]);
 
         $service = Service::findOrFail($validated['service_id']);
         $scheduledAt = Carbon::parse($validated['scheduled_at']);
 
-        $suggestedDate = $this->bookingService->suggestSameDate(auth()->user(), $scheduledAt);
+        $suggestedDate = $this->bookingService->suggestSameDate(currentUser(), $scheduledAt);
 
         $booking = $this->createAction->execute(
-            auth()->user(),
+            currentUser(),
             $service,
             $scheduledAt,
             $validated['notes'] ?? null
         );
 
         return redirect()->route('bookings.index')
-            ->with('success', 'Agendamento criado com sucesso!')
-            ->with('suggested_date', $suggestedDate);
+            ->with('success', __('booking.messages.created_success'));
     }
 
     public function edit(Booking $booking)
@@ -66,7 +67,7 @@ class BookingController extends Controller
 
         if (! $this->bookingService->canModifyBooking($booking)) {
             return redirect()->route('bookings.index')
-                ->with('error', 'Não é possível alterar agendamentos com menos de 2 dias de antecedência. Entre em contato por telefone.');
+                ->with('error', __('booking.messages.cannot_modify_contact'));
         }
 
         $services = Service::active()->get();
@@ -79,7 +80,7 @@ class BookingController extends Controller
         $this->authorize('update', $booking);
 
         if (! $this->bookingService->canModifyBooking($booking)) {
-            return back()->with('error', 'Não é possível alterar agendamentos com menos de 2 dias de antecedência.');
+            return back()->with('error', __('booking.messages.cannot_modify'));
         }
 
         $validated = $request->validate([
@@ -91,7 +92,7 @@ class BookingController extends Controller
         $this->updateAction->execute($booking, $validated);
 
         return redirect()->route('bookings.index')
-            ->with('success', 'Agendamento atualizado com sucesso!');
+            ->with('success', __('booking.messages.updated_success'));
     }
 
     public function destroy(Booking $booking)
@@ -99,13 +100,13 @@ class BookingController extends Controller
         $this->authorize('delete', $booking);
 
         if (! $this->bookingService->canModifyBooking($booking)) {
-            return back()->with('error', 'Não é possível cancelar agendamentos com menos de 2 dias de antecedência.');
+            return back()->with('error', __('booking.messages.cannot_cancel'));
         }
 
         $this->updateAction->cancel($booking);
 
         return redirect()->route('bookings.index')
-            ->with('success', 'Agendamento cancelado com sucesso!');
+            ->with('success', __('booking.messages.cancelled_success'));
     }
 
     public function history(Request $request)
@@ -113,7 +114,7 @@ class BookingController extends Controller
         $startDate = $request->input('start_date', now()->subMonth());
         $endDate = $request->input('end_date', now());
 
-        $bookings = Booking::where('user_id', auth()->id())
+        $bookings = Booking::where('user_id', currentUserId())
             ->with('service')
             ->inPeriod($startDate, $endDate)
             ->latest('scheduled_at')
@@ -127,5 +128,57 @@ class BookingController extends Controller
         $this->authorize('view', $booking);
 
         return view('bookings.show', compact('booking'));
+    }
+
+    public function availableSlots(Request $request)
+    {
+        $request->validate([
+            'date' => 'required|date|after:yesterday',
+            'service_id' => 'required|exists:services,id',
+        ]);
+
+        $date = Carbon::parse($request->date);
+        $serviceId = $request->service_id;
+
+        $slots = $this->bookingService->getAvailableSlots($date, $serviceId);
+
+        Log::info('Available slots request', [
+            'date' => $date->format('Y-m-d'),
+            'day_of_week' => strtolower($date->format('l')),
+            'service_id' => $serviceId,
+            'slots_count' => count($slots),
+            'slots' => $slots,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'slots' => $slots,
+            'date' => $date->format('Y-m-d'),
+        ]);
+    }
+
+    public function checkSuggestedDate(Request $request)
+    {
+        $request->validate([
+            'date' => 'required|date|after:yesterday',
+        ]);
+
+        $proposedDate = Carbon::parse($request->date);
+        $suggestedDate = $this->bookingService->suggestSameDate(currentUser(), $proposedDate);
+
+        if ($suggestedDate) {
+            return response()->json([
+                'has_suggestion' => true,
+                'suggested_date' => $suggestedDate->format('Y-m-d'),
+                'suggested_time' => $suggestedDate->format('H:i'),
+                'message' => __('booking.messages.suggestion_message', [
+                    'datetime' => $suggestedDate->format('d/m/Y H:i')
+                ])
+            ]);
+        }
+
+        return response()->json([
+            'has_suggestion' => false
+        ]);
     }
 }

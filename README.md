@@ -183,27 +183,53 @@ Após executar os seeders, você terá acesso a:
 - **Policies**: Autorização centralizada
 
 ### Padrões de Código
-- Código limpo, sem comentários desnecessários
+- Código limpo
 - Reaproveitamento de código via Services e Actions
 - Uso de Policies para autorização
 - Validação de dados em todos os formulários
 
-### Formatação de Código
+## Helpers Customizados
 
-O projeto utiliza ferramentas de formatação automática para manter o código padronizado:
+O projeto possui helpers globais para facilitar o desenvolvimento:
 
-**Laravel Pint** - Formatação de arquivos PHP
-```bash
-./vendor/bin/sail composer pint
-# ou
-./vendor/bin/sail pint
+### Autenticação
+```php
+$user = currentUser(); // Equivalente a auth()->user()
+$userId = currentUserId(); // Equivalente a auth()->id()
 ```
 
-**Blade Formatter** - Formatação de arquivos Blade
-```bash
-./vendor/bin/sail npm run format:blade
-# ou manualmente
-./vendor/bin/sail npx blade-formatter --write resources/**/*.blade.php
+**Localização**: `app/Helpers/helpers.php`
+
+## Internacionalização (i18n)
+
+O sistema suporta múltiplos idiomas (pt_BR, en, es) para todas as mensagens.
+
+### Estrutura de Traduções
+```
+lang/
+├── pt_BR/
+│   └── booking.php
+├── en/
+│   └── booking.php
+└── es/
+    └── booking.php
+```
+
+## Configuração de Horários
+
+As configurações de horário de funcionamento estão fixas (pode evoluir para uma configuração no admin) em `config/booking.php`:
+
+```php
+'business_hours' => [
+    'monday' => ['09:00', '19:00'],
+    'tuesday' => ['09:00', '19:00'],
+    'wednesday' => ['09:00', '19:00'],
+    'thursday' => ['09:00', '19:00'],
+    'friday' => ['09:00', '19:00'],
+    'saturday' => ['09:00', '17:00'],
+    'sunday' => null,
+],
+'slot_interval_minutes' => 60,
 ```
 
 ### Limpar cache

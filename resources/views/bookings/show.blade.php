@@ -4,6 +4,15 @@
     </x-slot>
 
     <x-card>
+        @if (!$booking->canBeModified() && in_array($booking->status, ['pending', 'confirmed']))
+            <x-alert icon="o-information-circle" class="alert-warning mb-6">
+                <div class="flex flex-col gap-1">
+                    <span class="font-medium">Não é possível alterar este agendamento pelo sistema.</span>
+                    <span>Para alterações, entre em contato pelo telefone: <a href="tel:+5599999999999" class="font-bold hover:underline">(99) 99999-9999</a></span>
+                </div>
+            </x-alert>
+        @endif
+
         <div class="space-y-4">
             <div>
                 <label class="font-semibold text-gray-700">Serviço:</label>
