@@ -12,6 +12,7 @@ class UpdateBookingAction
     {
         return DB::transaction(function () use ($booking, $data) {
             $booking->update($data);
+
             return $booking->fresh();
         });
     }

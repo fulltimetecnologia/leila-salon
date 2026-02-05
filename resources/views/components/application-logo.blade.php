@@ -9,10 +9,12 @@
         <!-- Tesoura estilizada -->
         <circle cx="30" cy="25" r="8" />
         <ellipse cx="30" cy="40" rx="3" ry="20" />
-        <path d="M 28 60 Q 30 70, 50 85" stroke="url(#salonGradient)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M 28 60 Q 30 70, 50 85" stroke="url(#salonGradient)" stroke-width="3" fill="none"
+            stroke-linecap="round" />
         <circle cx="70" cy="25" r="8" />
         <ellipse cx="70" cy="40" rx="3" ry="20" />
-        <path d="M 72 60 Q 70 70, 50 85" stroke="url(#salonGradient)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M 72 60 Q 70 70, 50 85" stroke="url(#salonGradient)" stroke-width="3" fill="none"
+            stroke-linecap="round" />
         <circle cx="50" cy="87" r="5" fill="#FFD700" />
     </g>
 </svg>

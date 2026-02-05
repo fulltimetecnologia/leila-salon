@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\UpdateBookingAction;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Service;
-use App\Actions\UpdateBookingAction;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class BookingController extends Controller
 {
@@ -16,9 +15,9 @@ class BookingController extends Controller
     public function index(Request $request)
     {
         $status = $request->input('status');
-        
+
         $bookings = Booking::with(['user', 'service'])
-            ->when($status, fn($q) => $q->where('status', $status))
+            ->when($status, fn ($q) => $q->where('status', $status))
             ->latest('scheduled_at')
             ->paginate(20);
 
@@ -28,6 +27,7 @@ class BookingController extends Controller
     public function edit(Booking $booking)
     {
         $services = Service::active()->get();
+
         return view('admin.bookings.edit', compact('booking', 'services'));
     }
 
@@ -67,4 +67,3 @@ class BookingController extends Controller
         return back()->with('success', 'Agendamento cancelado!');
     }
 }
-

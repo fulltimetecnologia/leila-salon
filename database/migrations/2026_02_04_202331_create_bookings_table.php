@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('status', ['pending', 'confirmed', 'completed', 'cancelled'])->default('pending');
             $table->text('notes')->nullable();
             $table->timestamps();
-            
+
             $table->index(['user_id', 'scheduled_at']);
             $table->index('status');
         });

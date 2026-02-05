@@ -10,12 +10,14 @@ class ServiceController extends Controller
     public function index()
     {
         $services = Service::active()->get();
+
         return view('services.index', compact('services'));
     }
 
     public function adminIndex()
     {
         $services = Service::all();
+
         return view('admin.services.index', compact('services'));
     }
 

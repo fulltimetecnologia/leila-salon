@@ -188,6 +188,24 @@ Após executar os seeders, você terá acesso a:
 - Uso de Policies para autorização
 - Validação de dados em todos os formulários
 
+### Formatação de Código
+
+O projeto utiliza ferramentas de formatação automática para manter o código padronizado:
+
+**Laravel Pint** - Formatação de arquivos PHP
+```bash
+./vendor/bin/sail composer pint
+# ou
+./vendor/bin/sail pint
+```
+
+**Blade Formatter** - Formatação de arquivos Blade
+```bash
+./vendor/bin/sail npm run format:blade
+# ou manualmente
+./vendor/bin/sail npx blade-formatter --write resources/**/*.blade.php
+```
+
 ### Limpar cache
 ```bash
 ./vendor/bin/sail artisan config:clear

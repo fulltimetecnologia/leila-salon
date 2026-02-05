@@ -46,7 +46,7 @@ class BookingService
             'pending_bookings' => $bookings->where('status', 'pending')->count(),
             'completed_bookings' => $bookings->where('status', 'completed')->count(),
             'cancelled_bookings' => $bookings->where('status', 'cancelled')->count(),
-            'total_revenue' => $bookings->where('status', 'completed')->sum(fn($b) => $b->service->price),
+            'total_revenue' => $bookings->where('status', 'completed')->sum(fn ($b) => $b->service->price),
         ];
     }
 
@@ -61,9 +61,9 @@ class BookingService
 
         while ($currentTime->lessThan($endTime)) {
             $slotEnd = $currentTime->copy()->addMinutes($serviceDuration);
-            
+
             if ($slotEnd->lessThanOrEqualTo($endTime)) {
-                $isAvailable = !Booking::where('scheduled_at', $currentTime)
+                $isAvailable = ! Booking::where('scheduled_at', $currentTime)
                     ->whereIn('status', ['pending', 'confirmed'])
                     ->exists();
 

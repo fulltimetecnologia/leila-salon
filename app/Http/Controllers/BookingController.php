@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Booking;
-use App\Models\Service;
 use App\Actions\CreateBookingAction;
 use App\Actions\UpdateBookingAction;
+use App\Models\Booking;
+use App\Models\Service;
 use App\Services\BookingService;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
@@ -31,6 +31,7 @@ class BookingController extends Controller
     public function create()
     {
         $services = Service::active()->get();
+
         return view('bookings.create', compact('services'));
     }
 
@@ -63,12 +64,13 @@ class BookingController extends Controller
     {
         $this->authorize('update', $booking);
 
-        if (!$this->bookingService->canModifyBooking($booking)) {
+        if (! $this->bookingService->canModifyBooking($booking)) {
             return redirect()->route('bookings.index')
                 ->with('error', 'Não é possível alterar agendamentos com menos de 2 dias de antecedência. Entre em contato por telefone.');
         }
 
         $services = Service::active()->get();
+
         return view('bookings.edit', compact('booking', 'services'));
     }
 
@@ -76,7 +78,7 @@ class BookingController extends Controller
     {
         $this->authorize('update', $booking);
 
-        if (!$this->bookingService->canModifyBooking($booking)) {
+        if (! $this->bookingService->canModifyBooking($booking)) {
             return back()->with('error', 'Não é possível alterar agendamentos com menos de 2 dias de antecedência.');
         }
 
@@ -96,7 +98,7 @@ class BookingController extends Controller
     {
         $this->authorize('delete', $booking);
 
-        if (!$this->bookingService->canModifyBooking($booking)) {
+        if (! $this->bookingService->canModifyBooking($booking)) {
             return back()->with('error', 'Não é possível cancelar agendamentos com menos de 2 dias de antecedência.');
         }
 
@@ -127,4 +129,3 @@ class BookingController extends Controller
         return view('bookings.show', compact('booking'));
     }
 }
-

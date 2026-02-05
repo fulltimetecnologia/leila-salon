@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 
 class Booking extends Model
 {
@@ -66,6 +65,7 @@ class Booking extends Model
     public function canBeModified(): bool
     {
         $daysDiff = now()->diffInDays($this->scheduled_at, false);
+
         return $daysDiff >= 2;
     }
 
